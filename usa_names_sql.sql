@@ -174,18 +174,61 @@
 --21,123 names have only appeared in one year. 
 
 
+--17. How many names only appeared in the 1950s?
+-- SELECT name, COUNT(DISTINCT name)
+-- FROM names
+-- GROUP BY name
+-- HAVING MIN(year) >=1950 AND MAX(year) < 1960;
+--There are 661 names that only appeared in the 1950's.
 
 
+--18. How many names made their first appearance in the 2010s?
+-- SELECT name
+-- FROM names
+-- GROUP BY name
+-- HAVING MIN(year) >=2010;
+--11,270 names first appeared in 2010.
 
 
+--19. Find the names that have not be used in the longest.
+-- SELECT name, MAX(year)
+-- FROM names
+-- GROUP BY name
+-- ORDER BY MAX(year)
+-- LIMIT 10;
+--Zilpah, Roll and Crete have not been used since 1880's
 
 
+--20. What was the most popular name in 2018?
+-- SELECT name, num_registered
+-- FROM names
+-- WHERE year = 2018
+-- ORDER BY num_registered DESC
+
+--Liam was the most popular name in 2018
 
 
+--Display the most popular name each year?
+
+-- SELECT *
+-- FROM(
+--   SELECT name, year, num_registered, MAX(num_registered) over (PARTITION BY year) AS max_ocr
+--   FROM names
+-- ) AS T
+-- WHERE num_registered = max_ocr
+
+------------------
+--Bonus Questions
+--1.  Find the longest name contained in this dataset. What do you notice about the long names?
+-- SELECT name, CHAR_LENGTH(name) AS length
+-- FROM names
+-- ORDER BY CHAR_LENGTH(name) DESC
+-- LIMIT 10;
+--The longest names have lengths of 15. The longest names look like two names added together.
+--Most of them include the name Christopher.
 
 
-
-
+--2. 
 
 
 
