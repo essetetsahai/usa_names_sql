@@ -27,11 +27,8 @@
 
 
 --4.What range of years are included?
--- SELECT MIN(year)
--- FROM names
--- UNION ALL
--- SELECT MAX(year)
--- FROM names
+SELECT MIN(year), MAX(year)
+FROM names;
 
 --The years range from 1880 TO 2018.
 
@@ -54,3 +51,168 @@
 
 
 --7.Are there more males or more females registered?
+-- SELECT gender, SUM(num_registered) AS total 
+-- FROM names 
+-- GROUP BY gender
+-- ORDER BY total DESC;
+
+--There are more males (177,573,793) than females (174,079,232).
+
+
+--8. What are the most popular male and female names overall (i.e., the most total registrations)?
+-- (SELECT name, gender, SUM(num_registered) AS total
+-- FROM names
+-- WHERE gender = 'M'
+-- GROUP BY gender, name
+-- ORDER BY total DESC
+-- LIMIT 1)
+-- UNION ALL
+-- (SELECT name, gender, SUM(num_registered) AS total
+-- FROM names
+-- WHERE gender = 'F'
+-- GROUP BY gender, name
+-- ORDER BY total DESC
+-- LIMIT 1);
+
+--The most popular male name is James (5,164,280). 
+--The most popular female name is (4,125,675).
+
+
+--9. What are the most popular boy and girl names of the first decade of the 2000s (2000 - 2009)?
+-- (SELECT name, gender, SUM(num_registered) AS total
+-- FROM names
+-- WHERE gender = 'M' AND year BETWEEN 2000 AND 2009
+-- GROUP BY gender, name
+-- ORDER BY total DESC
+-- LIMIT 1)
+-- UNION ALL
+-- (SELECT name, gender, SUM(num_registered) AS total
+-- FROM names
+-- WHERE gender = 'F' AND year BETWEEN 2000 AND 2009
+-- GROUP BY gender, name
+-- ORDER BY total DESC
+-- LIMIT 1);
+
+-- The most popular boy name is Jacob (273,844). 
+-- The most popular girl name is Emily (223,690).
+
+
+--10. Which year had the most variety in names (i.e. had the most distinct names)?
+
+-- SELECT year, COUNT(DISTINCT names) 
+-- FROM names
+-- GROUP BY year
+-- ORDER BY COUNT(DISTINCT names) DESC
+-- LIMIT 1;
+
+--2008 had the most variety in names (35,079).
+
+
+--11. What is the most popular name for a girl that starts with the letter X?
+-- SELECT name, SUM(num_registered) AS total
+-- FROM names
+-- WHERE name LIKE 'X%' AND gender = 'F'
+-- GROUP BY name
+-- ORDER BY total DESC
+-- LIMIT 1;
+
+--Ximena is the most popular name for girls with letter X (26,145).
+
+
+--12. How many distinct names appear that start with a 'Q', but whose second letter is not 'u'?
+-- SELECT COUNT(DISTINCT name)
+-- FROM names
+-- WHERE name LIKE 'Q%' AND name NOT LIKE '_u%';
+
+--There are 46 names like that.
+
+
+--13. Which is the more popular spelling between "Stephen" and "Steven"? 
+--    Use a single query to answer this question.
+-- SELECT name, SUM(num_registered)
+-- FROM names
+-- WHERE name = 'Steven' OR name = 'Stephen'
+-- GROUP BY name;
+
+--Steven(1,286,951) is more a popular spelling than Stephen (860,972).
+
+
+--14. What percentage of names are "unisex" - that is 
+--    what percentage of names have been used both for boys and for girls?
+
+---------------------------------------------
+-- SELECT name, COUNT(DISTINCT gender) AS count
+-- FROM names
+-- GROUP BY name 
+-- HAVING COUNT(DISTINCT gender) > 1 ;
+--------------------------------------------
+
+-- SELECT COUNT(DISTINCT xyz.uni) AS unisex_tot, COUNT(DISTINCT(name)) AS all_names, ROUND((100.0*COUNT(DISTINCT xyz.uni)/COUNT(DISTINCT(name))), 1) AS perc
+
+-- FROM(SELECT name AS uni, COUNT(DISTINCT gender) AS count
+-- 	FROM names
+-- 	GROUP BY name 
+-- 	HAVING COUNT(DISTINCT gender) > 1) AS xyz
+-- RIGHT JOIN names AS abc
+-- ON xyz.uni = abc.name;
+
+--10.9% of names are unisex.
+
+--15. How many names have made an appearance in every single year since 1880?
+-- SELECT name, COUNT(DISTINCT year) AS count
+-- FROM names
+-- GROUP BY name 
+-- HAVING COUNT(DISTINCT year) = 139;
+--921 names have appeared every single year. 
+
+
+--16. How many names have only appeared in one year?
+-- SELECT name
+-- FROM names
+-- GROUP BY name 
+-- HAVING COUNT(DISTINCT year) = 1;
+--21,123 names have only appeared in one year. 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+--1. Which name/gender combinations have had a year with at least 80,000 registrations?
+
+-- SELECT DISTINCT name, gender
+-- FROM names
+-- WHERE num_regitered >=80000;
+
+
+-- 2. Which names have at least 1,000,000 total registrations?
+-- SELECT name, SUM(num_registered) AS total_registered
+-- FROM names
+-- GROUP BY name
+-- HAVING SUM(num_registered) >= 1000000 ;
+
+
+-- 3. Which names have had at least 150,000 registered from the year 2010 onwards.
+-- SELECT name, SUM(num_registered)
+-- FROM names
+-- WHERE year >= 2010
+-- GROUP BY name
+-- HAVING SUM(num_registered) >= 150000
+
+
+
