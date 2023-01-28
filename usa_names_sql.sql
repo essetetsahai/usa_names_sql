@@ -27,8 +27,8 @@
 
 
 --4.What range of years are included?
-SELECT MIN(year), MAX(year)
-FROM names;
+--SELECT MIN(year), MAX(year)
+--FROM names;
 
 --The years range from 1880 TO 2018.
 
